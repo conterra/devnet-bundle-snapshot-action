@@ -11,6 +11,9 @@ inputs:
   nexus_user_pw:
     description: "Nexus User Password"
     required: true
+  nexus_url:
+    description: "Nexus Url"
+    required: true
   nexus_url_release:
     description: "Nexus Url Release"
     required: true
@@ -74,17 +77,17 @@ runs:
         servers: >
           [
             {
-              "id": "${{ nexus_id }}",
-              "username": "${{ nexus_user }}",
-              "password": "${{ nexus_user_pw }}"
+              "id": "${{ inputs.nexus_id }}",
+              "username": "${{ inputs.nexus_user }}",
+              "password": "${{ inputs.nexus_user_pw }}"
             }
           ]
         mirrors: >
           [
             {
-              "id": "${{ nexus_id }}",
+              "id": "${{ inputs.nexus_id }}",
               "mirrorOf": "central",
-              "url": "${{ NEXUS_URL }}"
+              "url": "${{ inputs.nexus_url }}"
             }
           ]
     - name: Cache node modules
@@ -111,7 +114,7 @@ runs:
       run: mvn prepare-package -Prun-js-tests,include-mapapps-deps
     - id: nexus_deployment
       name: Publish to Nexus
-      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ nexus_id }} -Ddist.releases.url=${{ nexus_url_release }} -Ddist.snapshots.id=${{ nexus_id }} -Ddist.snapshots.url=${{ nexus_url_snapshots }}
+      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ inputs.nexus_id }} -Ddist.releases.url=${{ inputs.nexus_url_release }} -Ddist.snapshots.id=${{ inputs.nexus_id }} -Ddist.snapshots.url=${{ inputs.nexus_url_snapshots }}
     - id: release
       name: Create GitHub release
       uses: ncipollo/release-action@v1
@@ -122,4 +125,4 @@ runs:
         allowUpdates: true
         replacesArtifacts: true
         tag: ${{ steps.project_version.outputs.version }}
-        token: ${{ release_token }}
+        token: ${{ inputs.release_token }}
