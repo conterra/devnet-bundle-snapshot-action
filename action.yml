@@ -1,22 +1,23 @@
-name: devnet-bundle-snapshot
+name: devnet-bundle-snapshot-action
+description: Devnet Bundle Snapshot Action
 
 inputs:
-  NEXUS_ID:
+  nexus_id:
     description: "Nexus ID"
     required: true
-  NEXUS_USER:
+  nexus_user:
     description: "Nexus User"
     required: true
-  NEXUS_USER_PW:
+  nexus_user_pw:
     description: "Nexus User Password"
     required: true
-  NEXUS_URL_RELEASE:
+  nexus_url_release:
     description: "Nexus Url Release"
     required: true
-  NEXUS_URL_SNAPSHOTS:
+  nexus_url_snapshots:
     description: "Nexus Url Snapshots"
     required: true
-  RELEASE_TOKEN:
+  release_token:
     description: "Release Token"
     required: true
 
@@ -73,15 +74,15 @@ runs:
         servers: >
           [
             {
-              "id": "${{ NEXUS_ID }}",
-              "username": "${{ NEXUS_USER }}",
-              "password": "${{ NEXUS_USER_PW }}"
+              "id": "${{ nexus_id }}",
+              "username": "${{ nexus_user }}",
+              "password": "${{ nexus_user_pw }}"
             }
           ]
         mirrors: >
           [
             {
-              "id": "${{ NEXUS_ID }}",
+              "id": "${{ nexus_id }}",
               "mirrorOf": "central",
               "url": "${{ NEXUS_URL }}"
             }
@@ -110,7 +111,7 @@ runs:
       run: mvn prepare-package -Prun-js-tests,include-mapapps-deps
     - id: nexus_deployment
       name: Publish to Nexus
-      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ NEXUS_ID }} -Ddist.releases.url=${{ NEXUS_URL_RELEASE }} -Ddist.snapshots.id=${{ NEXUS_ID }} -Ddist.snapshots.url=${{ NEXUS_URL_SNAPSHOTS }}
+      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ nexus_id }} -Ddist.releases.url=${{ nexus_url_release }} -Ddist.snapshots.id=${{ nexus_id }} -Ddist.snapshots.url=${{ nexus_url_snapshots }}
     - id: release
       name: Create GitHub release
       uses: ncipollo/release-action@v1
@@ -121,4 +122,4 @@ runs:
         allowUpdates: true
         replacesArtifacts: true
         tag: ${{ steps.project_version.outputs.version }}
-        token: ${{ RELEASE_TOKEN }}
+        token: ${{ release_token }}
