@@ -1,5 +1,25 @@
 name: devnet-bundle-snapshot
 
+inputs:
+  NEXUS_ID:
+    description: "Nexus ID"
+    required: true
+  NEXUS_USER:
+    description: "Nexus User"
+    required: true
+  NEXUS_USER_PW:
+    description: "Nexus User Password"
+    required: true
+  NEXUS_URL_RELEASE:
+    description: "Nexus Url Release"
+    required: true
+  NEXUS_URL_SNAPSHOTS:
+    description: "Nexus Url Snapshots"
+    required: true
+  RELEASE_TOKEN:
+    description: "Release Token"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -53,17 +73,17 @@ runs:
         servers: >
           [
             {
-              "id": "${{ secrets.NEXUS_ID }}",
-              "username": "${{ secrets.NEXUS_USER }}",
-              "password": "${{ secrets.NEXUS_USER_PW }}"
+              "id": "${{ NEXUS_ID }}",
+              "username": "${{ NEXUS_USER }}",
+              "password": "${{ NEXUS_USER_PW }}"
             }
           ]
         mirrors: >
           [
             {
-              "id": "${{ secrets.NEXUS_ID }}",
+              "id": "${{ NEXUS_ID }}",
               "mirrorOf": "central",
-              "url": "${{ secrets.NEXUS_URL }}"
+              "url": "${{ NEXUS_URL }}"
             }
           ]
     - name: Cache node modules
@@ -90,7 +110,7 @@ runs:
       run: mvn prepare-package -Prun-js-tests,include-mapapps-deps
     - id: nexus_deployment
       name: Publish to Nexus
-      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ secrets.NEXUS_ID }} -Ddist.releases.url=${{ secrets.NEXUS_URL_RELEASE }} -Ddist.snapshots.id=${{ secrets.NEXUS_ID }} -Ddist.snapshots.url=${{ secrets.NEXUS_URL_SNAPSHOTS }}
+      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ NEXUS_ID }} -Ddist.releases.url=${{ NEXUS_URL_RELEASE }} -Ddist.snapshots.id=${{ NEXUS_ID }} -Ddist.snapshots.url=${{ NEXUS_URL_SNAPSHOTS }}
     - id: release
       name: Create GitHub release
       uses: ncipollo/release-action@v1
