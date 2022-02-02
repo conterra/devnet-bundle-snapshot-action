@@ -106,15 +106,19 @@ runs:
     - id: project_version
       name: Extract Maven project version
       run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+      shell: bash
     - id: project_artifact_id
       name: Extract Maven project artifactId
       run: echo ::set-output name=artifactId::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}' --non-recursive exec:exec)
+      shell: bash
     - id: tests
       name: Run tests
       run: mvn prepare-package -Prun-js-tests,include-mapapps-deps
+      shell: bash
     - id: nexus_deployment
       name: Publish to Nexus
       run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ inputs.nexus_id }} -Ddist.releases.url=${{ inputs.nexus_url_release }} -Ddist.snapshots.id=${{ inputs.nexus_id }} -Ddist.snapshots.url=${{ inputs.nexus_url_snapshots }}
+      shell: bash
     - id: release
       name: Create GitHub release
       uses: ncipollo/release-action@v1
