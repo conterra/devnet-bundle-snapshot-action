@@ -121,4 +121,4 @@ runs:
         allowUpdates: true
         replacesArtifacts: true
         tag: ${{ steps.project_version.outputs.version }}
-        token: ${{ secrets.RELEASE_TOKEN }}
+        token: ${{ RELEASE_TOKEN }}
