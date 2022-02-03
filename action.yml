@@ -130,4 +130,3 @@ runs:
         replacesArtifacts: true
         tag: ${{ steps.project_version.outputs.version }}
         token: ${{ inputs.release_token }}
-        allowUpdates: true
