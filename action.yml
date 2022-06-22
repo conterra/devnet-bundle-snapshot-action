@@ -91,11 +91,11 @@ runs:
       shell: bash
     - id: tests
       name: Run tests
-      run: mvn prepare-package -Prun-js-tests,include-mapapps-deps
+      run: mvn prepare-package -B -ntp -Prun-js-tests,include-mapapps-deps
       shell: bash
     - id: nexus_deployment
       name: Publish to Nexus
-      run: mvn deploy -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ inputs.nexus_id }} -Ddist.releases.url=${{ inputs.nexus_url_release }} -Ddist.snapshots.id=${{ inputs.nexus_id }} -Ddist.snapshots.url=${{ inputs.nexus_url_snapshots }}
+      run: mvn clean deploy -B -ntp -Pcompress -Dmaven.test.skip.exec=true -Ddist.releases.id=${{ inputs.nexus_id }} -Ddist.releases.url=${{ inputs.nexus_url_release }} -Ddist.snapshots.id=${{ inputs.nexus_id }} -Ddist.snapshots.url=${{ inputs.nexus_url_snapshots }}
       shell: bash
     - id: release
       name: Create GitHub release
