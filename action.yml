@@ -125,5 +125,5 @@ runs:
         token: ${{ inputs.release_token }}
     - id: upload_demo
       name: Upload to demo
-      run: mvn package -Pcompress,upload -Ddemo.user=${{ demo_user }} -Ddemo.user.pw=${{ demo_user_pw }}
+      run: mvn package -Pcompress,upload -Ddemo.user=${{ inputs.demo_user }} -Ddemo.user.pw=${{ inputs.demo_user_pw }}
       shell: bash
