@@ -128,5 +128,5 @@ runs:
         token: ${{ inputs.release_token }}
     - id: upload_demo
       name: Upload to demo
-      run: mvn package -Pcompress,upload -Dmapapps.remote.base=${{ inputs.demo_url }} -Ddemo.user=${{ inputs.demo_user }} -Ddemo.user.pw=${{ inputs.demo_user_pw }}
+      run: mvn package -Pcompress,upload -Dmapapps.remote.base=${{ inputs.demo_url }} -D<mapapps.user=${{ inputs.demo_user }} -Dmapapps.pw=${{ inputs.demo_user_pw }}
       shell: bash
