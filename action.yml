@@ -23,15 +23,6 @@ inputs:
   release_token:
     description: "Release Token"
     required: true
-  demo_user:
-    description: "Demo User"
-    required: true
-  demo_user_pw:
-    description: "Demo User PW"
-    required: true
-  demo_url:
-    description: "Demo URL"
-    required: true
 
 runs:
   using: "composite"
@@ -126,7 +117,3 @@ runs:
         replacesArtifacts: true
         tag: ${{ steps.project_version.outputs.version }}
         token: ${{ inputs.release_token }}
-    - id: upload_demo
-      name: Upload to demo
-      run: mvn package -Pcompress,upload -Dmapapps.remote.base=${{ inputs.demo_url }} -Dmapapps.user=${{ inputs.demo_user }} -Dmapapps.pw=${{ inputs.demo_user_pw }}
-      shell: bash
