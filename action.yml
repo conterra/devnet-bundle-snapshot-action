@@ -44,55 +44,52 @@ runs:
       with:
         java-version: '17'
         distribution: 'adopt'
-        server-id: ${{ inputs.nexus_id }}
-        server-username: ${{ inputs.nexus_user }}
-        server-password: ${{ inputs.nexus_user_pw }}
-    # - id: create_settings_xml
-    #   name: Create settings.xml
-    #   uses: whelk-io/maven-settings-xml-action@v22
-    #   with:
-    #     repositories: >
-    #       [
-    #         {
-    #           "id": "central",
-    #           "url": "http://central",
-    #           "releases": {
-    #             "enabled": "true"
-    #           },
-    #           "snapshots": {
-    #             "enabled": "true"
-    #           }
-    #         }
-    #       ]
-    #     plugin_repositories: >
-    #       [
-    #         {
-    #           "id": "central",
-    #           "url": "http://central",
-    #           "releases": {
-    #             "enabled": "true"
-    #           },
-    #           "snapshots": {
-    #             "enabled": "true"
-    #           }
-    #         }
-    #       ]
-    #     servers: >
-    #       [
-    #         {
-    #           "id": "${{ inputs.nexus_id }}",
-    #           "username": "${{ inputs.nexus_user }}",
-    #           "password": "${{ inputs.nexus_user_pw }}"
-    #         }
-    #       ]
-    #     mirrors: >
-    #       [
-    #         {
-    #           "id": "${{ inputs.nexus_id }}",
-    #           "mirrorOf": "central",
-    #           "url": "${{ inputs.nexus_url }}"
-    #         }
-    #       ]
+    - id: create_settings_xml
+      name: Create settings.xml
+      uses: whelk-io/maven-settings-xml-action@v22
+      with:
+        repositories: >
+          [
+            {
+              "id": "central",
+              "url": "http://central",
+              "releases": {
+                "enabled": "true"
+              },
+              "snapshots": {
+                "enabled": "true"
+              }
+            }
+          ]
+        plugin_repositories: >
+          [
+            {
+              "id": "central",
+              "url": "http://central",
+              "releases": {
+                "enabled": "true"
+              },
+              "snapshots": {
+                "enabled": "true"
+              }
+            }
+          ]
+        servers: >
+          [
+            {
+              "id": "${{ inputs.nexus_id }}",
+              "username": "${{ inputs.nexus_user }}",
+              "password": "${{ inputs.nexus_user_pw }}"
+            }
+          ]
+        mirrors: >
+          [
+            {
+              "id": "${{ inputs.nexus_id }}",
+              "mirrorOf": "central",
+              "url": "${{ inputs.nexus_url }}"
+            }
+          ]
     - id: project_version
       name: Extract Maven project version
       run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
