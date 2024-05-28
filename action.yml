@@ -46,7 +46,7 @@ runs:
         distribution: 'adopt'
     - id: create_settings_xml
       name: Create settings.xml
-      uses: whelk-io/maven-settings-xml-action@v21
+      uses: whelk-io/maven-settings-xml-action@v22
       with:
         repositories: >
           [
