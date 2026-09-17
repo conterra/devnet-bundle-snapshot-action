@@ -71,7 +71,7 @@ runs:
         distribution: 'temurin'
     - id: create_settings_xml
       name: Create settings.xml
-      uses: s4u/maven-settings-action@v4
+      uses: s4u/maven-settings-action@v4.0.0
       with:
         githubServer: false
         repositories: >
