@@ -112,6 +112,7 @@ runs:
           [
             {
               "id": "${{ inputs.nexus_id }}",
+              "name": "${{ inputs.nexus_id }}",
               "mirrorOf": "central",
               "url": "${{ inputs.nexus_url }}"
             }
